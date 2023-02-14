@@ -23,7 +23,8 @@ if __name__ == '__main__':
     #gui_man = pygame_gui.UIManager(GUI_SIZE)
     gui_man = pygame_gui.UIManager(SIM_SIZE)
     pause_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(SIM_WIDTH-75, SIM_HEIGHT-75, 50, 50), text='||', manager=gui_man)
-    ffw_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(SIM_WIDTH-125, SIM_HEIGHT-75, 50, 50), text='>>', manager=gui_man)
+    play_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(SIM_WIDTH-125, SIM_HEIGHT-75, 50, 50), text='>', manager=gui_man)
+    ffw_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(SIM_WIDTH-175, SIM_HEIGHT-75, 50, 50), text='>>', manager=gui_man)
 
     clock = pygame.time.Clock()
     is_running = True
@@ -31,21 +32,24 @@ if __name__ == '__main__':
     world = World(SIM_SIZE)
 
 
-    #Add Creatures
-    sex_setter = True
+    #Add Creatures to world
     for i in range(50):
         world.add_creature(Plant(world))
         time.sleep(0.01)
     
+    sex_setter = True
     for i in range(15):
         world.add_creature(Herbivore(world, sex=sex_setter))
         time.sleep(0.01)
         world.add_creature(Carnivore(world, sex=sex_setter))
         time.sleep(0.01)
         sex_setter = not sex_setter
-
+    
+    #################################
+    #### Main sim loop and logic ####
+    #################################
     paused = False
-    speedup = False
+    speed_mult = 1000
     tick_speed = 60
     while is_running:
         for event in pygame.event.get():
@@ -57,23 +61,29 @@ if __name__ == '__main__':
                 #check for pause via UI
                 if event.ui_element == pause_button:
                     paused = not paused
-                #check for world time speed up via UI
+                #check for time speed up via UI
                 if event.ui_element == ffw_button:
-                    #Could do it this way if the 1x speed button is implemented
-                    #speedup = 3
-                    speedup = True
+                    speed_mult = 300
+                #check for time speed up via UI
+                if event.ui_element == play_button:
+                    speed_mult = 1000
             #Keyboard button listener
             elif event.type == pygame.KEYDOWN:
                 #check for pause via spacebar
                 if event.key == pygame.K_SPACE:
                     paused = not paused
+                #check for speed update via 1 key
+                if event.key == pygame.K_1:
+                    speed_mult = 1000
+                #check for speed update via 2 key
+                if event.key == pygame.K_2:
+                    speed_mult = 300
 
             gui_man.process_events(event)
-
-        #Sim Loop
+        
         time_elapsed = clock.tick(tick_speed)
-        time_elapsed = time_elapsed/1000
-
+        time_elapsed = time_elapsed/speed_mult
+        
         if paused == False:
             sim_screen.fill((0,150,20))
             world.process(time_elapsed)
