@@ -44,7 +44,8 @@ if __name__ == '__main__':
         time.sleep(0.01)
         sex_setter = not sex_setter
 
-    paused, speedup = False
+    paused = False
+    speedup = False
     tick_speed = 60
     while is_running:
         for event in pygame.event.get():
