@@ -22,16 +22,17 @@ if __name__ == '__main__':
     #GUI_SIZE = (GUI_WIDTH, GUI_HEIGHT)
     #gui_man = pygame_gui.UIManager(GUI_SIZE)
     gui_man = pygame_gui.UIManager(SIM_SIZE)
-    pause_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(1425, 925, 50, 50), text='||', manager=gui_man)
+    pause_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(SIM_WIDTH-75, SIM_HEIGHT-75, 50, 50), text='||', manager=gui_man)
+    ffw_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(SIM_WIDTH-125, SIM_HEIGHT-75, 50, 50), text='>>', manager=gui_man)
 
     clock = pygame.time.Clock()
     is_running = True
 
     world = World(SIM_SIZE)
 
-    sex_setter = True
 
     #Add Creatures
+    sex_setter = True
     for i in range(50):
         world.add_creature(Plant(world))
         time.sleep(0.01)
@@ -43,16 +44,29 @@ if __name__ == '__main__':
         time.sleep(0.01)
         sex_setter = not sex_setter
 
-    paused = False
+    paused, speedup = False
     tick_speed = 60
     while is_running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
                 sys.exit()
+            #UI button Listener
             elif event.type == pygame_gui.UI_BUTTON_PRESSED:
+                #check for pause via UI
                 if event.ui_element == pause_button:
                     paused = not paused
+                #check for world time speed up via UI
+                if event.ui_element == ffw_button:
+                    #Could do it this way if the 1x speed button is implemented
+                    #speedup = 3
+                    speedup = True
+            #Keyboard button listener
+            elif event.type == pygame.KEYDOWN:
+                #check for pause via spacebar
+                if event.key == pygame.K_SPACE:
+                    paused = not paused
+
             gui_man.process_events(event)
 
         #Sim Loop
