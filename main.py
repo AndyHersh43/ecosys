@@ -44,24 +44,27 @@ if __name__ == '__main__':
         sex_setter = not sex_setter
 
     paused = False
+    tick_speed = 60
     while is_running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 is_running = False
-            elif event.type == pygame.USEREVENT and event.user_type == pygame_gui.UI_BUTTON_PRESSED:
+                sys.exit()
+            elif event.type == pygame_gui.UI_BUTTON_PRESSED:
                 if event.ui_element == pause_button:
                     paused = not paused
             gui_man.process_events(event)
-        
-        #Sim Loop
-        sim_screen.fill((0,150,20))
-        time_elapsed = clock.tick(60)
-        time_elapsed = time_elapsed/1000
-        gui_man.update(time_elapsed)
 
-        world.process(time_elapsed)
-        world.render(sim_screen)
-        #gui_man.draw_ui(GUI_SIZE)
-        gui_man.draw_ui(sim_screen)
+        #Sim Loop
+        time_elapsed = clock.tick(tick_speed)
+        time_elapsed = time_elapsed/1000
+
+        if paused == False:
+            sim_screen.fill((0,150,20))
+            world.process(time_elapsed)
+            world.render(sim_screen)
+            #gui_man.draw_ui(GUI_SIZE)
+            gui_man.draw_ui(sim_screen)
 
         pygame.display.update()
+        gui_man.update(time_elapsed)
