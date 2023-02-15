@@ -7,8 +7,7 @@ Relies on pygame and pygame_gui. To run the sim:
 3. Install pygame_gui via pip [pip install pygame_gui]
 5. CD into the directory of the clone and type "python main.py" into the terminal at the root of the project
 
-
-As of right now any changes to the simulation attributes will require a code change as there is no user input modifications possible besies the speed of the simulation.
+As of right now any changes to the simulation attributes will require a code change as there are no user input modifications possible besides altering the speed of the simulation.
 
 TODO:
 1. Add a way to speed the sim up as well as pause it ✅
