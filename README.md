@@ -5,6 +5,7 @@ Relies on pygame and pygame_gui.
 
 To run the sim:
 1. Install Python
+
 https://www.python.org/downloads/
 
 3. Install pygame via pip 
