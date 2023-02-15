@@ -1,9 +1,13 @@
 # ecosys
 A little ecosystem simulator. Uses Abstract Base Classes in Python to generate: Predators (carnivores), Prey (herbivores) and Plants which are all based on a "Creature" base class. Uses pygame to render the interactions.
 
-Relies on pygame and pygame_gui. To run the sim:
+Relies on pygame and pygame_gui. 
+
+To run the sim:
 1. Install Python
-2. Install pygame via pip 
+https://www.python.org/downloads/
+
+3. Install pygame via pip 
 ```
 pip install pygame
 ```
